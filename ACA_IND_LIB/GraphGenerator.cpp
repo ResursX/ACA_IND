@@ -69,7 +69,7 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
         do {
             graph = generateGraph(countOfVertexes, edgesRate);
 
-            for (int i = 0; i < k; k++) {
+            for (int i = 0; i < k; i++) {
                 int** g = graphs[i];
 
                 newGraph = false;
