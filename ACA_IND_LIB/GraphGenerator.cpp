@@ -8,13 +8,9 @@
 
 std::mt19937 mt(time(nullptr));
 
-int** generateGraph(size_t vertexes, double edgesRate)
+void generateGraph(int** matrix, size_t vertexes, double edgesRate)
 {
-    int** matrix = new int*[vertexes];
-
     for (size_t i = 0; i < vertexes; i++) {
-        matrix[i] = new int[vertexes];
-
         for (size_t j = 0; j < vertexes; j++) {
             matrix[i][j] = 0;
         }
@@ -50,8 +46,6 @@ int** generateGraph(size_t vertexes, double edgesRate)
         } while (u == v || matrix[u][v] == 1);
         matrix[u][v] = matrix[v][u] = 1;
     }
-
-    return matrix;
 }
 
 int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
@@ -64,10 +58,15 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
     {
         bool newGraph = true;
 
-        int** graph;
+        int** graph = new int*[countOfVertexes];
+
+        for (int i = 0; i < countOfVertexes; i++)
+        {
+            graph[i] = new int[countOfVertexes];
+        }
 
         do {
-            graph = generateGraph(countOfVertexes, edgesRate);
+            generateGraph(graph, countOfVertexes, edgesRate);
 
             for (int p = 0; p < k && newGraph; p++) {
                 int** g = graphs[p];
