@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void ReadMatrix(std::istream& stream, AdjacencyMatrix& matrix, int n) {
+void ReadMatrix(std::istream& stream, int** matrix, int n) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			stream >> matrix[i][j];
@@ -16,7 +16,7 @@ void ReadMatrix(std::istream& stream, AdjacencyMatrix& matrix, int n) {
 	}
 }
 
-void PrintMatrix(std::ostream& stream, AdjacencyMatrix& matrix, int n) {
+void PrintMatrix(std::ostream& stream, int** matrix, int n) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			stream << matrix[i][j] << " ";
@@ -35,14 +35,19 @@ void main() {
 	// ¬вод n
 	finp >> n;
 
-	AdjacencyMatrix
-		g1 = generateGraph(n, 0.5),
-		g2 = generateGraph(n, 0.5);
+	int
+		**g1 = generateGraph(n, 0.5),
+		**g2 = generateGraph(n, 0.5);
 
 	// ¬вод матриц
-	//AdjacencyMatrix 
-	//	g1(n, std::vector<int>(n, 0)),
-	//	g2(n, std::vector<int>(n, 0));
+	//int 
+	//	**g1 = new int*[n],
+	//	**g2 = new int*[n];
+	//
+	//for (int  i = 0; i < n; i++) {
+	//	g1[i] = new int[n];
+	//	g2[i] = new int[n];
+	//}
 	//
 	//ReadMatrix(finp, g1, n);
 	//ReadMatrix(finp, g2, n);

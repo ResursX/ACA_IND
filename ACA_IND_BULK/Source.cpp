@@ -18,7 +18,7 @@ void main() {
 	// ¬вод n
 	finp >> n >> k >> r;
 
-	vector<AdjacencyMatrix> graphs = genNGraphs(k * 2, n, r);
+	int*** graphs = genNGraphs(k * 2, n, r);
 
 	int c_randic = 0,
 		c_vec = 0;
@@ -70,4 +70,14 @@ void main() {
 	fout << "Tv = " << scientific << t_vec << endl << endl;
 
 	fout.close();
+
+	for (int i = 0; i < k * 2; i++) {
+		for (int j = 0; j < n; j++) {
+			delete[] graphs[i][j];
+		}
+
+		delete[] graphs[i];
+	}
+
+	delete[] graphs;
 }

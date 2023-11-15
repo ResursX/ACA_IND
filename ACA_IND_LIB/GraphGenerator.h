@@ -1,8 +1,5 @@
 #pragma once
-#include <vector>
 
-using AdjacencyMatrix = std::vector<std::vector<int>>;
+int** generateGraph(size_t vertexes, double edgesRate);
 
-AdjacencyMatrix generateGraph(size_t vertexes, double edgesRate);
-
-std::vector<AdjacencyMatrix> genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate);
+int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate);

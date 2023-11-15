@@ -4,12 +4,11 @@
 
 #include <iostream>
 #include <forward_list>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
 
-bool IsomorphyFull_Rec(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, size_t* ord, size_t k, bool* used) {
+bool IsomorphyFull_Rec(int** g1, int** g2, size_t n, size_t* ord, size_t k, bool* used) {
 	if (k == n) {
 		for (size_t i = 0; i < n; i++) {
 			for (size_t j = i + 1; j < n; j++) {
@@ -38,7 +37,7 @@ bool IsomorphyFull_Rec(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, size_
 	return false;
 }
 
-bool IsomorphyFull_Rec_2(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, size_t* ord, size_t k, bool* used) {
+bool IsomorphyFull_Rec_2(int** g1, int** g2, size_t n, size_t* ord, size_t k, bool* used) {
 	if (k + 1 == n) {
 		return true;
 	}
@@ -71,10 +70,9 @@ bool IsomorphyFull_Rec_2(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, siz
 }
 
 // Проверка на изоморфию с помощью полного перебора
-bool IsomorphyFull(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
+bool IsomorphyFull(int** g1, int** g2, size_t n) {
 	size_t* ord = new size_t[n];
 	bool
-		a,
 		b,
 		* used = new bool[n];
 
@@ -83,47 +81,16 @@ bool IsomorphyFull(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
 		used[i] = false;
 	}
 
-	a = IsomorphyFull_Rec(g1, g2, n, ord, 0, used);
-
-	//for (size_t i = 0; i < n; i++) {
-	//	ord[i] = -1;
-	//	used[i] = false;
-	//}
-	//
-	//b = IsomorphyFull_Rec_2(g1, g2, n, ord, 0, used);
-	//
-	//if (a != b) {
-	//	std::cout << "ERROR " << a << " " << b << std::endl;
-	//
-	//	for (int i = 0; i < n; i++) {
-	//		for (int j = 0; j < n; j++) {
-	//			std::cout << g1[i][j] << " ";
-	//		}
-	//
-	//		std::cout << std::endl;
-	//	}
-	//
-	//	std::cout << std::endl;
-	//
-	//	for (int i = 0; i < n; i++) {
-	//		for (int j = 0; j < n; j++) {
-	//			std::cout << g2[i][j] << " ";
-	//		}
-	//
-	//		std::cout << std::endl;
-	//	}
-	//
-	//	std::cout << std::endl;
-	//} 
+	b = IsomorphyFull_Rec(g1, g2, n, ord, 0, used);
 
 	delete[] ord;
 	delete[] used;
 
-	return a;
+	return b;
 }
 
 // Нахождение степеней вершин
-void CalcDeg(AdjacencyMatrix& g, size_t n, size_t* d) {
+void CalcDeg(int** g, size_t n, size_t* d) {
 	for (size_t i = 0; i < n; i++) {
 		d[i] = 0;
 
@@ -136,7 +103,7 @@ void CalcDeg(AdjacencyMatrix& g, size_t n, size_t* d) {
 }
 
 // Вычисление индекса Рандича
-double CalcRandic(AdjacencyMatrix& g, size_t n) {
+double CalcRandic(int** g, size_t n) {
 	size_t* d = new size_t[n];
 
 	double
@@ -158,7 +125,7 @@ double CalcRandic(AdjacencyMatrix& g, size_t n) {
 // Проверка на изоморфность с помощью индекса Рандича
 const double eps_randic = 1E-12;
 
-bool IsomorphyRandic(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
+bool IsomorphyRandic(int** g1, int** g2, size_t n) {
 	double
 		r1 = CalcRandic(g1, n),
 		r2 = CalcRandic(g2, n);
@@ -223,12 +190,14 @@ struct {
 } CompareDegList;
 
 // Проверка на изоморфность с помощью вектора степеней второго порядка
-bool IsomorphyDegVector(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
+bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 	size_t
 		* d1 = new size_t[n],
 		* d2 = new size_t[n];
 
-	vector<PDegList> vd1(n), vd2(n);
+	PDegList
+		* vd1 = new PDegList[n],
+		* vd2 = new PDegList[n];
 
 	CalcDeg(g1, n, d1);
 	CalcDeg(g2, n, d2);
@@ -263,40 +232,8 @@ bool IsomorphyDegVector(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
 		}
 	}
 
-	std::sort(vd1.begin(), vd1.end(), CompareDegList);
-	std::sort(vd2.begin(), vd2.end(), CompareDegList);
-
-	//cout << "VD1: " << endl;
-	//for (size_t i = 0; i < n; i++) {
-	//	PDegList tp = vd1[i];
-	//
-	//	cout << "V" << i << endl;
-	//	cout << "S: " << tp->sum << endl;
-	//	cout << "C: " << tp->count << endl;
-	//	cout << "D:";
-	//
-	//	for (forward_list<size_t>::iterator it = tp->degs.begin(); it != tp->degs.end(); it++) {
-	//		cout << " " << *it;
-	//	}
-	//
-	//	cout << endl << endl;
-	//}
-	//
-	//cout << "VD2: " << endl;
-	//for (size_t i = 0; i < n; i++) {
-	//	PDegList tp = vd2[i];
-	//
-	//	cout << "V" << i << endl;
-	//	cout << "S: " << tp->sum << endl;
-	//	cout << "C: " << tp->count << endl;
-	//	cout << "D:";
-	//
-	//	for (forward_list<size_t>::iterator it = tp->degs.begin(); it != tp->degs.end(); it++) {
-	//		cout << " " << *it;
-	//	}
-	//
-	//	cout << endl << endl;
-	//}
+	std::sort(vd1, vd1 + n, CompareDegList);
+	std::sort(vd2, vd2 + n, CompareDegList);
 
 	PDegList p1, p2;
 
