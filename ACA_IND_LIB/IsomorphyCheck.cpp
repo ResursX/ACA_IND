@@ -295,7 +295,16 @@ bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 			i1++;
 			i2++;
 		}
+
+		delete p1;
+		delete p2;
 	}
+
+	delete[] d1;
+	delete[] d2;
+
+	delete[] vd1;
+	delete[] vd2;
 
 	return true;
 }
