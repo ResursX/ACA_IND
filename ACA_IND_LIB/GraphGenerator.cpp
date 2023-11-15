@@ -56,6 +56,8 @@ int** generateGraph(size_t vertexes, double edgesRate)
 
 int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
 {
+    int its = 0;
+
     int*** graphs = new int**[countOfGraphs];
 
     for (int k = 0; k < countOfGraphs; ++k)
@@ -84,9 +86,14 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
                 }
                 if (newGraph) break;
             }
+
+            its++;
         } while (!newGraph);
 
         graphs[k] = graph;
     }
+
+    std::cout << its << std::endl;
+
     return graphs;
 }
