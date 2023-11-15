@@ -10,7 +10,7 @@ std::mt19937 mt(time(nullptr));
 
 int** generateGraph(size_t vertexes, double edgesRate)
 {
-    int** matrix = new int*[vertexes]; //AdjacencyMatrix(vertexes, std::vector<int>(vertexes, 0));
+    int** matrix = new int*[vertexes];
 
     for (size_t i = 0; i < vertexes; i++) {
         matrix[i] = new int[vertexes];
@@ -27,18 +27,18 @@ int** generateGraph(size_t vertexes, double edgesRate)
         edges = vertexes - 1;
     }
 
-    bool* used = new bool[vertexes];
-
-    std::vector<bool> used = std::vector<bool>(vertexes, false);
-    used[mt() % vertexes] = true;
-    for (size_t i = 1; i < vertexes; ++i)
     {
-        int u;
-        do { u = mt() % vertexes; } while (used[u]);
-        int v;
-        do { v = mt() % vertexes; } while (!used[v]);
-        matrix[u][v] = matrix[v][u] = 1;
-        used[u] = true;
+        std::vector<bool> used = std::vector<bool>(vertexes, false);
+        used[mt() % vertexes] = true;
+        for (size_t i = 1; i < vertexes; ++i)
+        {
+            int u;
+            do { u = mt() % vertexes; } while (used[u]);
+            int v;
+            do { v = mt() % vertexes; } while (!used[v]);
+            matrix[u][v] = matrix[v][u] = 1;
+            used[u] = true;
+        }
     }
     
     for (size_t i = vertexes - 1; i < edges; ++i)
@@ -84,23 +84,9 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
                 }
                 if (newGraph) break;
             }
-
-            //for (auto& g : graphs)
-            //{
-            //    newGraph = false;
-            //    for (int i = 0; i < g.size(); ++i)
-            //    {
-            //        if (g[i] != graph[i]) 
-            //        {
-            //            newGraph = true;
-            //            break;
-            //        }
-            //    }
-            //    if (newGraph) break;
-            //}
         } while (!newGraph);
 
-        graphs[k] = graph; //graphs.push_back(graph);
+        graphs[k] = graph;
     }
     return graphs;
 }
