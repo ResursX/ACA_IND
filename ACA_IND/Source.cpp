@@ -149,6 +149,7 @@ void main() {
 	// Ввод n
 	finp >> n;
 
+	// Инициализация матриц
 	int 
 		**g1 = new int*[n],
 		**g2 = new int*[n];
@@ -156,15 +157,12 @@ void main() {
 	for (int  i = 0; i < n; i++) {
 		g1[i] = new int[n];
 		g2[i] = new int[n];
-	}
 
 	// Генерация графов
-
 	generateGraph(g1, n, 0.5),
-	generateGraph(g1, n, 0.5);
+	generateGraph(g2, n, 0.5);
 
 	// Ввод матриц
-	
 	//ReadMatrix(finp, g1, n);
 	//ReadMatrix(finp, g2, n);
 

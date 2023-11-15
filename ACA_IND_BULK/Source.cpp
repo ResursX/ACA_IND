@@ -18,14 +18,7 @@ void main() {
 	// Ввод n
 	finp >> n >> k >> r;
 
-	int
-		** g1 = new int* [n],
-		** g2 = new int* [n];
-
-	for (int i = 0; i < n; i++) {
-		g1[i] = new int[n];
-		g2[i] = new int[n];
-	}
+	int*** graphs = genNGraphs(k * 2, n, r);
 
 	int c_randic = 0,
 		c_vec = 0;
@@ -39,20 +32,19 @@ void main() {
 	bool l1, l2;
 
 	for (int i = 0; i < k; i++) {
-		generateGraph(g1, n, r);
-		generateGraph(g2, n, r);
+		//cout << i << endl;
 
 		// Перебор
 		t = getCPUTime();
 
-		l1 = IsomorphyFull(g1, g2, n);
+		l1 = IsomorphyFull(graphs[2 * i], graphs[2 * i + 1], n);
 
 		t_full += getCPUTime() - t;
 
 		// Рандич
 		t = getCPUTime();
 
-		l2 = IsomorphyRandic(g1, g2, n);
+		l2 = IsomorphyRandic(graphs[2 * i], graphs[2 * i + 1], n);
 
 		t_randic += getCPUTime() - t;
 
@@ -61,7 +53,7 @@ void main() {
 		// Вектор
 		t = getCPUTime();
 
-		l2 = IsomorphyDegVector(g1, g2, n);
+		l2 = IsomorphyDegVector(graphs[2 * i], graphs[2 * i + 1], n);
 
 		t_vec += getCPUTime() - t;
 
@@ -79,21 +71,13 @@ void main() {
 
 	fout.close();
 
-	//for (int i = 0; i < k * 2; i++) {
-	//	for (int j = 0; j < n; j++) {
-	//		delete[] graphs[i][j];
-	//	}
-	//
-	//	delete[] graphs[i];
-	//}
-	//
-	//delete[] graphs;
+	for (int i = 0; i < k * 2; i++) {
+		for (int j = 0; j < n; j++) {
+			delete[] graphs[i][j];
+		}
 
-	for (int i = 0; i < n; i++) {
-		delete[] g1[i];
-		delete[] g2[i];
+		delete[] graphs[i];
 	}
 
-	delete[] g1;
-	delete[] g2;
+	delete[] graphs;
 }
