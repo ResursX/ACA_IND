@@ -69,14 +69,14 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
         do {
             graph = generateGraph(countOfVertexes, edgesRate);
 
-            for (int i = 0; i < k; i++) {
-                int** g = graphs[i];
+            for (int p = 0; p < k && newGraph; p++) {
+                int** g = graphs[p];
 
                 newGraph = false;
 
-                for (int i = 0; i < countOfVertexes && !newGraph; i++)
+                for (size_t i = 0; i < countOfVertexes && !newGraph; i++)
                 {
-                    for (int j = 0; j < countOfVertexes && !newGraph; j++)
+                    for (size_t j = 0; j < countOfVertexes && !newGraph; j++)
                     {
                         if (g[i][j] != graph[i][j])
                         {
@@ -84,7 +84,6 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
                         }
                     }
                 }
-                if (newGraph) break;
             }
 
             its++;
