@@ -149,22 +149,20 @@ void main() {
 	// Ввод n
 	finp >> n;
 
-	int 
-		**g1 = new int*[n],
-		**g2 = new int*[n];
-	
-	for (int  i = 0; i < n; i++) {
-		g1[i] = new int[n];
-		g2[i] = new int[n];
-	}
-
-	// Генерация графов
-
-	generateGraph(g1, n, 0.5),
-	generateGraph(g1, n, 0.5);
+	int
+		**g1 = generateGraph(n, 0.5),
+		**g2 = generateGraph(n, 0.5);
 
 	// Ввод матриц
-	
+	//int 
+	//	**g1 = new int*[n],
+	//	**g2 = new int*[n];
+	//
+	//for (int  i = 0; i < n; i++) {
+	//	g1[i] = new int[n];
+	//	g2[i] = new int[n];
+	//}
+	//
 	//ReadMatrix(finp, g1, n);
 	//ReadMatrix(finp, g2, n);
 
@@ -191,12 +189,4 @@ void main() {
 	fout << "Order 2 degree vector invariant check: " << IsomorphyDegVector(g1, g2, n) << std::endl << std::endl;
 
 	fout.close();
-
-	for (int i = 0; i < n; i++) {
-		delete[] g1[i];
-		delete[] g2[i];
-	}
-
-	delete[] g1;
-	delete[] g2;
 }
