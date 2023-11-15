@@ -60,7 +60,7 @@ void main() {
 		if (l2 == l1) c_vec++;
 	}
 
-	fout << "N = " << n << ", K = " << k << ", r = " << r << endl;
+	fout << "N = " << n << ", r = " << r << ", K = " << k  << endl;
 
 	fout << "Pr = " << fixed << (double)c_randic / k * 100 << endl;
 	fout << "Pv = " << fixed << (double)c_vec / k * 100 << endl;
