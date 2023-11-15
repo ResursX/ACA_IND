@@ -58,3 +58,23 @@ Full check: 1
 Randic invariant check: 1
 Order 2 degree vector invariant check: 1
 
+N = 6
+
+0 1 1 1 1 1 
+1 0 0 0 0 0 
+1 0 0 0 0 1 
+1 0 0 0 0 1 
+1 0 0 0 0 0 
+1 0 1 1 0 0 
+
+0 1 0 0 0 0 
+1 0 1 1 0 1 
+0 1 0 1 0 0 
+0 1 1 0 0 1 
+0 0 0 0 0 1 
+0 1 0 1 1 0 
+
+Full check: 0
+Randic invariant check: 0
+Order 2 degree vector invariant check: 0
+

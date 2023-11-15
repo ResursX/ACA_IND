@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool IsomorphyFull_Rec_1(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, size_t* ord, size_t k, bool* used) {
+bool IsomorphyFull_Rec(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, size_t* ord, size_t k, bool* used) {
 	if (k == n) {
 		for (size_t i = 0; i < n; i++) {
 			for (size_t j = i + 1; j < n; j++) {
@@ -28,7 +28,7 @@ bool IsomorphyFull_Rec_1(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n, siz
 			ord[k] = i;
 			used[i] = true;
 
-			if (IsomorphyFull_Rec_1(g1, g2, n, ord, k + 1, used))
+			if (IsomorphyFull_Rec(g1, g2, n, ord, k + 1, used))
 				return true;
 
 			used[i] = false;
@@ -83,7 +83,7 @@ bool IsomorphyFull(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
 		used[i] = false;
 	}
 
-	a = IsomorphyFull_Rec_1(g1, g2, n, ord, 0, used);
+	a = IsomorphyFull_Rec(g1, g2, n, ord, 0, used);
 
 	//for (size_t i = 0; i < n; i++) {
 	//	ord[i] = -1;
@@ -156,7 +156,7 @@ double CalcRandic(AdjacencyMatrix& g, size_t n) {
 }
 
 // Проверка на изоморфность с помощью индекса Рандича
-//const double eps_randic = 1E-12;
+const double eps_randic = 1E-12;
 
 bool IsomorphyRandic(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
 	double
@@ -164,7 +164,7 @@ bool IsomorphyRandic(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
 		r2 = CalcRandic(g2, n);
 
 	// TODO: заменить на сравнение разности с эпсилон?
-	return r1 == r2; //abs(r1 - r2) < eps_randic;
+	return abs(r1 - r2) < eps_randic;
 }
 
 // Вставка в однонаправленный список с сохранением порядка
@@ -313,7 +313,7 @@ bool IsomorphyDegVector(AdjacencyMatrix& g1, AdjacencyMatrix& g2, size_t n) {
 		i2 = p2->degs.begin();
 
 		while (i1 != i1e) {
-			if ((*i1) < (*i2)) return false;
+			if ((*i1) != (*i2)) return false;
 
 			i1++;
 			i2++;

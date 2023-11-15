@@ -8,7 +8,7 @@
 
 //using AdjacencyMatrix = std::vector<std::vector<int>>;
 
-std::mt19937 mt = std::mt19937(time(nullptr));
+std::mt19937 mt(time(nullptr));
 
 AdjacencyMatrix generateGraph(size_t vertexes, double edgesRate)
 {

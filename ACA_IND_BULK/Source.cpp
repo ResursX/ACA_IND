@@ -1,5 +1,6 @@
 #include "../ACA_IND_LIB/GraphGenerator.h"
 #include "../ACA_IND_LIB/IsomorphyCheck.h"
+#include "../ACA_IND_LIB/GetCPUTime.h"
 
 #include <iostream>
 #include <fstream>
@@ -22,20 +23,51 @@ void main() {
 	int c_randic = 0,
 		c_vec = 0;
 
-	bool t1, t2;
+	double
+		t,
+		t_full = 0,
+		t_randic = 0,
+		t_vec = 0;
+
+	bool l1, l2;
 
 	for (int i = 0; i < k; i++) {
-		t1 = IsomorphyFull(graphs[2 * i], graphs[2 * i + 1], n);
+		//cout << i << endl;
 
-		t2 = IsomorphyRandic(graphs[2 * i], graphs[2 * i + 1], n);
-		if (t2 == t1) c_randic++;
+		// Перебор
+		t = getCPUTime();
 
-		t2 = IsomorphyDegVector(graphs[2 * i], graphs[2 * i + 1], n);
-		if (t2 == t1) c_vec++;
+		l1 = IsomorphyFull(graphs[2 * i], graphs[2 * i + 1], n);
+
+		t_full += getCPUTime() - t;
+
+		// Рандич
+		t = getCPUTime();
+
+		l2 = IsomorphyRandic(graphs[2 * i], graphs[2 * i + 1], n);
+
+		t_randic += getCPUTime() - t;
+
+		if (l2 == l1) c_randic++;
+
+		// Вектор
+		t = getCPUTime();
+
+		l2 = IsomorphyDegVector(graphs[2 * i], graphs[2 * i + 1], n);
+
+		t_vec += getCPUTime() - t;
+
+		if (l2 == l1) c_vec++;
 	}
 
-	fout << c_randic << endl;
-	fout << c_vec << endl << endl;
+	fout << "N = " << n << ", K = " << k << ", r = " << r << endl;
+
+	fout << "Pr = " << fixed << (double)c_randic / k * 100 << endl;
+	fout << "Pv = " << fixed << (double)c_vec / k * 100 << endl;
+
+	fout << "Tf = " << scientific << t_full << endl;
+	fout << "Tr = " << scientific << t_randic << endl;
+	fout << "Tv = " << scientific << t_vec << endl << endl;
 
 	fout.close();
 }
