@@ -3,7 +3,7 @@
 #include "IsomorphyCheck.h"
 
 #include <iostream>
-#include <forward_list>
+#include <map>
 #include <algorithm>
 
 using namespace std;
@@ -159,6 +159,8 @@ double CalcRandic(int** g, size_t n) {
 		}
 	}
 
+	delete[] d;
+
 	return s;
 }
 
@@ -174,20 +176,6 @@ bool IsomorphyRandic(int** g1, int** g2, size_t n) {
 	return abs(r1 - r2) < eps_randic;
 }
 
-// Вставка в однонаправленный список с сохранением порядка
-void ForawardListInsertSorted(forward_list<size_t>& list, size_t item) {
-	forward_list<size_t>::iterator
-		i = list.begin(),
-		ip = list.before_begin();
-
-	while (i != list.end() && (*i) < item) {
-		ip = i;
-		i++;
-	}
-
-	list.insert_after(ip, item);
-}
-
 struct TDegList {
 	// Число степенкей в списке
 	size_t count;
@@ -195,8 +183,8 @@ struct TDegList {
 	// Сумма степеней
 	size_t sum;
 
-	// Список степеней вершин
-	forward_list<size_t> degs;
+	// Число степеней вершин
+	map<size_t, size_t> degs;
 };
 typedef TDegList* PDegList;
 
@@ -205,15 +193,20 @@ struct {
 		if (a->sum == b->sum) {
 			size_t t1, t2;
 
-			forward_list<size_t>::iterator
+			map<size_t, size_t>::iterator
 				i1 = a->degs.begin(),
 				i1e = a->degs.end(),
 				i2 = b->degs.begin(),
 				i2e = b->degs.end();
 
 			while (i1 != i1e && i2 != i2e) {
-				t1 = *i1;
-				t2 = *i2;
+				t1 = i1->first;
+				t2 = i2->first;
+
+				if (t1 == t2) {
+					t1 = i1->second;
+					t2 = i2->second;
+				}
 
 				if (t1 < t2) return false;
 				if (t1 > t2) return true;
@@ -256,14 +249,14 @@ bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 		for (size_t j = 0; j < n; j++) {
 			if (i != j) {
 				if (g1[i][j] > 0) {
-					ForawardListInsertSorted(vd1[i]->degs, d1[j]);
+					vd1[i]->degs[d1[j]]++;
 
 					vd1[i]->count++;
 					vd1[i]->sum += d1[j];
 				}
 
 				if (g2[i][j] > 0) {
-					ForawardListInsertSorted(vd2[i]->degs, d2[j]);
+					vd2[i]->degs[d2[j]]++;
 
 					vd2[i]->count++;
 					vd2[i]->sum += d2[j];
@@ -277,7 +270,7 @@ bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 
 	PDegList p1, p2;
 
-	forward_list<size_t>::iterator i1, i1e, i2;
+	map<size_t, size_t>::iterator i1, i1e, i2;
 
 	for (size_t i = 0; i < n; i++) {
 		p1 = vd1[i];
@@ -290,7 +283,7 @@ bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 		i2 = p2->degs.begin();
 
 		while (i1 != i1e) {
-			if ((*i1) != (*i2)) return false;
+			if (i1->first != i2->first || i1->second != i2->second) return false;
 
 			i1++;
 			i2++;
