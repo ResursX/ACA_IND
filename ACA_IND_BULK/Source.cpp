@@ -32,7 +32,7 @@ void main() {
 	bool l1, l2;
 
 	for (int i = 0; i < k; i++) {
-		//cout << i << endl;
+		cout << i << endl;
 
 		// Перебор
 		t = getCPUTime();

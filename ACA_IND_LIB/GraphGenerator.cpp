@@ -56,6 +56,8 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
 
     for (int k = 0; k < countOfGraphs; ++k)
     {
+        //std::cout << "Generating graph " << k << std::endl;
+
         bool newGraph = true;
 
         int** graph = new int*[countOfVertexes];
@@ -66,24 +68,26 @@ int*** genNGraphs(int countOfGraphs, size_t countOfVertexes, double edgesRate)
         }
 
         do {
+            //std::cout << "Trying to generate graph" << std::endl;
+
             generateGraph(graph, countOfVertexes, edgesRate);
 
-            for (int p = 0; p < k && newGraph; p++) {
-                int** g = graphs[p];
-
-                newGraph = false;
-
-                for (size_t i = 0; i < countOfVertexes && !newGraph; i++)
-                {
-                    for (size_t j = 0; j < countOfVertexes && !newGraph; j++)
-                    {
-                        if (g[i][j] != graph[i][j])
-                        {
-                            newGraph = true;
-                        }
-                    }
-                }
-            }
+            //for (int p = 0; p < k && newGraph; p++) {
+            //    int** g = graphs[p];
+            //
+            //    newGraph = false;
+            //
+            //    for (size_t i = 0; i < countOfVertexes && !newGraph; i++)
+            //    {
+            //        for (size_t j = 0; j < countOfVertexes && !newGraph; j++)
+            //        {
+            //            if (g[i][j] != graph[i][j])
+            //            {
+            //                newGraph = true;
+            //            }
+            //        }
+            //    }
+            //}
 
             its++;
         } while (!newGraph);

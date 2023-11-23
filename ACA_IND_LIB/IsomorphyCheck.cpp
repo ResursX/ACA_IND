@@ -8,68 +8,27 @@
 
 using namespace std;
 
-//bool IsomorphyFull_Rec_t(int** g1, int** g2, size_t n, size_t* ord, size_t k, bool* used) {
-//	if (k == n) {
-//		for (size_t i = 0; i < n; i++) {
-//			for (size_t j = i + 1; j < n; j++) {
-//				if (g1[ord[i]][ord[j]] != g2[i][j])
-//				{
-//					return false;
-//				}
-//			}
-//		}
-//
-//		return true;
-//	}
-//
-//	for (size_t i = 0; i < n; i++) {
-//		if (!used[i]) {
-//			ord[k] = i;
-//			used[i] = true;
-//
-//			if (IsomorphyFull_Rec_t(g1, g2, n, ord, k + 1, used))
-//				return true;
-//
-//			used[i] = false;
-//		}
-//	}
-//
-//	return false;
-//}
-
 bool IsomorphyFull_Rec(int** g1, int** g2, size_t n, size_t* ord, size_t k, bool* used) {
 	if (k == n) {
-		//for (size_t i = 0; i < n; i++) {
-		//	for (size_t j = i + 1; j < n; j++) {
-		//		if (g1[ord[i]][ord[j]] != g2[i][j])
-		//		{
-		//			return false;
-		//		}
-		//	}
-		//}
+		for (size_t i = 0; i < n; i++) {
+			for (size_t j = i + 1; j < n; j++) {
+				if (g1[ord[i]][ord[j]] != g2[i][j])
+				{
+					return false;
+				}
+			}
+		}
 
 		return true;
 	}
-
-	bool l;
 
 	for (size_t i = 0; i < n; i++) {
 		if (!used[i]) {
 			ord[k] = i;
 			used[i] = true;
 
-			l = true;
-
-			for (size_t j = 0; j <= k && l; j++) {
-				if (g1[i][ord[j]] != g2[k][j]) {
-					l = false;
-				}
-			}
-
-			if (l) {
-				if (IsomorphyFull_Rec(g1, g2, n, ord, k + 1, used))
-					return true;
-			}
+			if (IsomorphyFull_Rec(g1, g2, n, ord, k + 1, used))
+				return true;
 
 			used[i] = false;
 		}
@@ -78,50 +37,50 @@ bool IsomorphyFull_Rec(int** g1, int** g2, size_t n, size_t* ord, size_t k, bool
 	return false;
 }
 
+//bool IsomorphyFull_Rec(int** g1, int** g2, size_t n, size_t* ord, size_t k, bool* used) {
+//	if (k == n) {
+//		return true;
+//	}
+//
+//	bool l;
+//
+//	for (size_t i = 0; i < n; i++) {
+//		if (!used[i]) {
+//			ord[k] = i;
+//			used[i] = true;
+//
+//			l = true;
+//
+//			for (size_t j = 0; j <= k && l; j++) {
+//				if (g1[i][ord[j]] != g2[k][j]) {
+//					l = false;
+//				}
+//			}
+//
+//			if (l) {
+//				if (IsomorphyFull_Rec(g1, g2, n, ord, k + 1, used))
+//					return true;
+//			}
+//
+//			used[i] = false;
+//		}
+//	}
+//
+//	return false;
+//}
+
 // Проверка на изоморфию с помощью полного перебора
 bool IsomorphyFull(int** g1, int** g2, size_t n) {
 	size_t* ord = new size_t[n];
 	bool
-	//	t,
 		b,
 		* used = new bool[n];
-
-	//for (size_t i = 0; i < n; i++) {
-	//	used[i] = false;
-	//}
-	//
-	//t = IsomorphyFull_Rec_t(g1, g2, n, ord, 0, used);
 
 	for (size_t i = 0; i < n; i++) {
 		used[i] = false;
 	}
 
 	b = IsomorphyFull_Rec(g1, g2, n, ord, 0, used);
-
-	//if (t != b) {
-	//	std::cout << "ERROR " << t << " " << b << std::endl;
-	//
-	//	for (int i = 0; i < n; i++) {
-	//		for (int j = 0; j < n; j++) {
-	//			std::cout << g1[i][j] << " ";
-	//		}
-	//
-	//		std::cout << std::endl;
-	//	}
-	//
-	//	std::cout << std::endl;
-	//
-	//	for (int i = 0; i < n; i++) {
-	//		for (int j = 0; j < n; j++) {
-	//			std::cout << g2[i][j] << " ";
-	//		}
-	//
-	//		std::cout << std::endl;
-	//	}
-	//
-	//	std::cout << std::endl;
-	//
-	//}
 
 	delete[] ord;
 	delete[] used;
