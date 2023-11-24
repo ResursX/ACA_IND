@@ -224,6 +224,9 @@ bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 		}
 	}
 
+	delete[] d1;
+	delete[] d2;
+
 	// O(n*log n)
 	std::sort(vd1, vd1 + n, CompareDegList);
 	std::sort(vd2, vd2 + n, CompareDegList);
@@ -236,19 +239,50 @@ bool IsomorphyDegVector(int** g1, int** g2, size_t n) {
 		p1 = vd1[i];
 		p2 = vd2[i];
 
-		if (p1->count != p2->count || p1->sum != p2->sum) return false;
+		if (p1->count != p2->count || p1->sum != p2->sum) {
+			for (size_t i = 0; i < n; i++)
+			{
+				delete vd1[i];
+				delete vd2[i];
+			}
+			
+			delete[] vd1;
+			delete[] vd2;
+
+			return false;
+		}
 
 		i1 = p1->degs.begin();
 		i1e = p1->degs.end();
 		i2 = p2->degs.begin();
 
 		while (i1 != i1e) {
-			if (i1->first != i2->first || i1->second != i2->second) return false;
+			if (i1->first != i2->first || i1->second != i2->second) {
+				for (size_t i = 0; i < n; i++)
+				{
+					delete vd1[i];
+					delete vd2[i];
+				}
+
+				delete[] vd1;
+				delete[] vd2;
+				
+				return false;
+			}
 
 			i1++;
 			i2++;
 		}
 	}
+
+	for (size_t i = 0; i < n; i++)
+	{
+		delete vd1[i];
+		delete vd2[i];
+	}
+
+	delete[] vd1;
+	delete[] vd2;
 
 	return true;
 }
